@@ -42,17 +42,15 @@ export default class Model {
     const crew = this.members
       .filter((member) => member.type === type)
       .map((member) => member.name);
-
+    const num = Number(number);
     const range = [...Array(crew.length)].map((v, i) => i);
     const random = MissionUtils.Random.shuffle(range);
     const randomCrew = random.map((num) => crew[num]);
-    const quotient = Math.floor(crew.length / number);
-    let remainder = crew.length % number;
-    for (let i = 0; i < crew.length; i += quotient) {
-      const members = randomCrew.slice(i, i + quotient);
+    let remainder = crew.length % num;
+    for (let i = 0; i < crew.length; i += num) {
+      const members = randomCrew.slice(i, i + num);
       if (remainder) {
-        members.push(crew[random[i + quotient]]);
-        i += 1;
+        members.push(crew[random[random.length - remainder]]);
         remainder -= 1;
       }
       this.teams.push(new Team(type, mission, members));
